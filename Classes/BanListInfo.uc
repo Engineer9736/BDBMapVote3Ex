@@ -51,10 +51,12 @@ function blSetBan(int i, string IP, string Nick, string UnbanAt, bool Permban, s
 
 function BanRecord blGetBan(int i) 
 {
+	return Bans[0];
 }
 
 function bool bIsAdmin(String IP)
 {
+	return false;
 }
 		
 

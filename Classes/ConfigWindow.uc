@@ -12,7 +12,6 @@ var UMenuLabelControl     lblMsgTimeOut;
 
 function Created()
 {
-    local color c;
     Super.Created();
 
     lblMenuKey = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 20, 10, 120, 20));

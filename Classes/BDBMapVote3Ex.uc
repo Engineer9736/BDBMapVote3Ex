@@ -81,7 +81,6 @@ var string ServerTravelString;
 //function EndGameHandler()
 function bool HandleEndGame()
 {
-   local Pawn aPawn;
    local bool bReturn;
 
    bReturn = false;
@@ -135,7 +134,6 @@ event timer()
 {
    local pawn aPawn;
    local int VoterNum,NoVoteCount;
-   local MapVoteWRI A;
    local Pawn P;
 
    if(bLevelSwitchPending)
@@ -218,8 +216,6 @@ event timer()
 //************************************************************************************************
 function tick(float DeltaTime)
 {
-   local string PlayerName,PID;
-   local int    TeamID;
    local Pawn   Other;
 
    Super.tick(DeltaTime);
@@ -262,8 +258,7 @@ function bool CheckForTie()
   local TeamInfo Best;
   local int i;
   local pawn P, BestP;
-  local PlayerPawn Player;
-
+  
   if(Level.Game.IsA('Assault'))  //cant have ties in Assault, I think ?
      return false;
 
@@ -482,8 +477,6 @@ function BanPlayer(int PlayerID, string AdminName, int Hours, string AdminIP)
 {
   local Pawn aPawn;
   local MapVoteWRI MVWRI;
-  local string IP;
-  local int j;
   local BanListInfo bl;  
   
   for( aPawn=Level.PawnList; aPawn!=None; aPawn=aPawn.NextPawn )
@@ -530,11 +523,8 @@ function UnBanIP(int Index, string AdminName, string AdminIP) {
 function Mutate(string MutateString, PlayerPawn Sender)
 {
    local string MapName;
-   local string PlayerName;
    local string Tmp;
-   local int PlayerID,pos,seq;
    local int ObjectCount;
-   local int sppos;
    local string IP;
    local MapVoteWRI MVWRI;
 
@@ -658,11 +648,8 @@ function SetDynIPBan(PlayerPawn Victim)
 function OpenVoteWindow(PlayerPawn Sender)
 {
    local MapVoteWRI MVWRI;
-   local int x,playercount,y,i;
-   local pawn p;
+   local int x,i;
    local MapVoteWRI A;
-   local int TeamID;
-   local string PID;
    local BanListInfo bl;
    local string IP;
 
@@ -936,16 +923,13 @@ function SaveAccVotes(int WinningMapIndex)
 //******************************************************************************
 function TallyVotes(bool bForceMapSwitch)
 {
-   local string MapName;
    local string RealMapName;
-   local Actor  A;
    local int    index,x,y,topmap;
    local int    VoteCount[1024];
    local int    Ranking[32];
    local int    PlayersThatVoted;
    local int    TieCount;
    local string GameType,CurrentMap;
-   local int i,textline;
 
    // Gerco: var voor de mode
    local string extra;
@@ -1224,8 +1208,7 @@ function CloseAllVoteWindows()
 //************************************************************************************************
 function string SetupGameMap(string MapName)
 {
-   local string GameType, PreFix;
-   local MapList myList;
+   local string GameType;
    local int i;
 
    if(OtherGameClass != None && left(Caps(MapName),len(OtherGameClass.default.MapPreFix)) == OtherGameClass.default.MapPreFix)

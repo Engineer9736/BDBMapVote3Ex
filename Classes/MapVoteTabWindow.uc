@@ -59,7 +59,6 @@ function AddMapName(String MapName)
 function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix, string txtPackageGameClass) {
 
 	local OtherGamemodesWindow Window;
-	local int i;
 
 	if(OtherGamemodesWindow != None) {
 		Window = OtherGamemodesWindow(OtherGamemodesWindow.ClientArea);

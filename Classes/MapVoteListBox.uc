@@ -43,7 +43,6 @@ function KeyDown( int Key, float X, float Y )
 {
    local int i;
    local UWindowListBoxItem ItemPointer;
-   local UMenuMapVoteList MapItem;
    local PlayerPawn P;
 
    P = GetPlayerOwner();
@@ -122,8 +121,6 @@ function DoubleClickItem(UWindowListBoxItem I)
 
 function Find(string SearchText)
 {
-   local int i;
-   local UWindowListBoxItem ItemPointer;
    local UMenuMapVoteList MapItem;
 
    for(MapItem=UMenuMapVoteList(Items); MapItem!=None; MapItem=UMenuMapVoteList(MapItem.Next) )

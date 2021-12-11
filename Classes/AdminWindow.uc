@@ -35,8 +35,6 @@ var UMenuLabelControl     lblScoreBoardDelay;
 
 function Created()
 {
-    local color c;
-
     Super.Created();
 
 //    DesiredWidth = 400;

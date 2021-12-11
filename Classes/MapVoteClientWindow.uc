@@ -38,10 +38,6 @@ var bool    bAdmin;
 
 function Created()
 {
-   local PlayerReplicationInfo PRI;
-   local int i;
-   local string s;
-   
    TextColor.R = 255;
    TextColor.G = 255;
    TextColor.B = 255;
@@ -374,9 +370,7 @@ function string TranslateMapName(string MapName)
 
 function Paint(Canvas C, float MouseX, float MouseY)
 {
-     local int i,p1,p2,pos;
-     local string TempText,TextLine,WarningText;
-     local float X, Y, W, H;
+     local float W, H;
 
      Super.Paint(C,MouseX,MouseY);
 
@@ -457,8 +451,6 @@ function KeyDown( int Key, float X, float Y )
 
 function Close(optional bool bByParent)
 {
-    local int w, Mode;
-
     class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bLoadScreenShot = cbLoadScreenShot.bChecked;
     class'BDBMapVote3Ex.BDBMapVote3Ex'.static.StaticSaveConfig();
     Super.Close(bByParent);

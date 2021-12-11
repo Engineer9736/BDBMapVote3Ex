@@ -27,7 +27,6 @@ var UMenuLabelControl lblTableHeader;
 
 function Created()
 {
-    local color c;
 	local int i, pos;
 	
     Super.Created();
