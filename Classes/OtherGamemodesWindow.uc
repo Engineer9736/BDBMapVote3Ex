@@ -38,18 +38,22 @@ function Created()
     lblTableHeader = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 10, 10, WinWidth-20, 20));
     lblTableHeader.SetText("Enabled     Map PreFix    Package.GameClass");
 
+	// Make 10 Other Gamemode rows in the GUI.
 	for (i=0;i<10;i++) {
+	
+		// Calculate the Y position for the current row. 30 offset, and 20 pixels per row.
 		pos = 30 + (i * 20);
 		
-		// Other Gamemode row
+		// Gamemode enabled checkbox
 		cbEnabled[i] = UWindowCheckBox(CreateControl(class'UWindowCheckBox', 20, pos+2, 20, 20));
 		cbEnabled[i].bAcceptsFocus = False;
 		
+		// Map prefix textbox
 		txtMapPrefix[i] = UWindowEditControl(CreateControl(class'UWindowEditControl', 60, pos, 50, 20));
 		txtMapPrefix[i].SetNumericOnly(false);
 		txtMapPrefix[i].EditBoxWidth = 50;
 		
-		
+		// Package & Gameclass textbox
 		txtPackageGameClass[i] = UWindowEditControl(CreateControl(class'UWindowEditControl', 120, pos, 200, 20));
 		txtPackageGameClass[i].SetNumericOnly(false);
 		txtPackageGameClass[i].EditBoxWidth = 200;
@@ -76,16 +80,30 @@ function Notify(UWindowDialogControl C, byte E)
                ParentWindow.ParentWindow.ParentWindow.Close();
                break;
             case RemoteSaveButton:
-               //GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bDM "$ string(cbLoadDM.bChecked));
+               SaveOtherGamemodesConfig();
                GetPlayerOwner().ConsoleCommand("MUTATE BDBMAPVOTE RELOADMAPS");
-               break;
-            case cbEnabled[0]:
-               if(cbEnabled[0].bChecked)
-                  //cbAutoDetect.bChecked = false; todo
                break;
           }
           break;
      }
+}
+
+// Called from the Notify function above.
+function SaveOtherGamemodesConfig() {
+
+	local int i;
+	
+	for (i=0;i<10;i++) {
+		if (cbEnabled[i].bChecked) {
+			GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesbEnabled " $ i $ " 1");
+		}
+		else {
+			GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesbEnabled " $ i $ " 0");
+		}
+		
+		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesMapPrefix " $ i $ " " $ txtMapPrefix[i].getValue());
+		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesPackageGameClass " $ i $ " " $ txtPackageGameClass[i].getValue());
+	}
 }
 
 function Paint(Canvas C, float MouseX, float MouseY)

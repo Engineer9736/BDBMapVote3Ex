@@ -58,7 +58,7 @@ function AddMapName(String MapName)
 }
 
 // Called from MapVoteWRI
-function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtPackageGameClass, string txtMapPrefix) {
+function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix, string txtPackageGameClass) {
 
 	local OtherGamemodesWindow Window;
 	local int i;
@@ -66,8 +66,8 @@ function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtPackageGa
 	if(OtherGamemodesWindow != None) {
 		Window = OtherGamemodesWindow(OtherGamemodesWindow.ClientArea);
 		Window.cbEnabled[index].bChecked = cbEnabled;
-		Window.txtPackageGameClass[index].SetValue(txtPackageGameClass);
 		Window.txtMapPrefix[index].SetValue(txtMapPrefix);
+		Window.txtPackageGameClass[index].SetValue(txtPackageGameClass);
 	}
 
 }
