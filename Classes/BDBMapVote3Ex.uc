@@ -1438,37 +1438,48 @@ function LoadMaps()
 //*******************************************************************************
 function LoadMapTypes(string PreFix)
 {
-   local string FirstMap,NextMap,MapName,TestMap,ListPrefix;
+	local string FirstMap,NextMap,MapName,TestMap,ListPrefix;
 
-   // De listprefix zetten
-   ListPrefix = Prefix;
-   if(PreFix ~= "TDM") {
-   	ListPrefix = "TDM";
-	Prefix = "DM";
-   }
-   if(PreFix ~= "LMS") {
-        ListPrefix = "LMS";
-	Prefix = "DM";
-   }	
-   
-   FirstMap = Level.GetMapName(PreFix, "", 0);
-   NextMap = FirstMap;
-   while(!(FirstMap ~= TestMap))
-   {
-      MapName = Left(NextMap,len(NextMap) - 4);
-      if(!(Left(NextMap, Len(NextMap) - 4) ~= (PreFix $ "-tutorial")) )
-      {
-	 // Map prefix eraf slopen
-	 MapName = Right(MapName, Len(MapName) - Instr(MapName,"-"));
-	   
-	 // Map in de list zetten met goede listprefix
-         MapList[++MapCount] = ListPrefix $ MapName;
-      }
-      NextMap = Level.GetMapName(PreFix, NextMap, 1);
-      TestMap = NextMap;
-      if(MapCount > 1020)
-         break;
-   }
+	// De listprefix zetten
+	ListPrefix = Prefix;
+	if(PreFix ~= "TDM") {
+		ListPrefix = "TDM";
+		Prefix = "DM";
+	}
+	
+	if(PreFix ~= "LMS") {
+		ListPrefix = "LMS";
+		Prefix = "DM";
+	}
+	
+	// Bugfix Engineer 11 Dec 2021: If the prefix BL (Badlands) was loaded, it would load BLC maps as well, to later redirect
+	//								to the mapname with BL- which doesn't exist. To fix this, search for the mapnames including
+	//								the - . BLC-CivilWar is a good testcase. BLC-CivilWar.unr exists, BL-CivilWar.unr does not.
+	PreFix = PreFix $ "-";
+
+	FirstMap = Level.GetMapName(PreFix, "", 0);
+	NextMap = FirstMap;
+	while(!(FirstMap ~= TestMap)) {
+	
+		// Get the mapname without .unr
+		MapName = Left(NextMap,len(NextMap) - 4);
+		
+		
+		if(!(Left(NextMap, Len(NextMap) - 4) ~= (PreFix $ "-tutorial")) ) {
+			// Map prefix eraf slopen
+			MapName = Right(MapName, Len(MapName) - Instr(MapName,"-"));
+
+			// Map in de list zetten met goede listprefix
+			 MapList[++MapCount] = ListPrefix $ MapName;
+		}
+		
+		NextMap = Level.GetMapName(PreFix, NextMap, 1);
+
+		TestMap = NextMap;
+		
+		if(MapCount > 1020)
+			break;
+	}
 }
 //*******************************************************************************
 function LoadMapCycleList(class<MapList> MapListType)
