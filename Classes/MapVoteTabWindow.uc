@@ -5,6 +5,7 @@ var MapVoteClientWindow MapWindow;
 var ConfigWindow ConfigWindow;
 //var AboutMapVoteWindow AboutWindow;
 var AdminTabWindow AdminWindow;
+var OtherGamemodesTabWindow OtherGamemodesWindow;
 var string PrevSelectedMap;
 var int MapCount;
 
@@ -34,7 +35,13 @@ function Created()
       // Add the Admin window
       PageControl = Pages.AddPage( "Admin", class'AdminTabWindow');
       AdminWindow = AdminTabWindow(PageControl.Page);
+	  
+
    }
+   
+   	  // Add the Other Games window
+      PageControl = Pages.AddPage( "Other Gamemodes", class'OtherGamemodesTabWindow');
+      OtherGamemodesWindow = OtherGamemodesTabWindow(PageControl.Page);
 
    Super.Created();
 }
