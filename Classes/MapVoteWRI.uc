@@ -1,6 +1,6 @@
 class MapVoteWRI expands WRI;
 
-var BDBMapVote3Ex MapVoteMutator;
+var BDBMapVote4 MapVoteMutator;
 var string MapList1[257];
 var string MapList2[257];
 var string MapList3[257];
@@ -77,12 +77,12 @@ replication
 simulated function bool SetupWindow ()
 {
    // Increase the length of time messages stay on screen
-   class'SayMessagePlus'.default.Lifetime     = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'CriticalStringPlus'.default.Lifetime = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'RedSayMessagePlus'.default.Lifetime  = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'TeamSayMessagePlus'.default.Lifetime = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'StringMessagePlus'.default.Lifetime  = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'DeathMessagePlus'.default.Lifetime  = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;   
+   class'SayMessagePlus'.default.Lifetime     = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'CriticalStringPlus'.default.Lifetime = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'RedSayMessagePlus'.default.Lifetime  = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'TeamSayMessagePlus'.default.Lifetime = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'StringMessagePlus'.default.Lifetime  = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'DeathMessagePlus'.default.Lifetime  = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;   
    
    //log("WRI SetupWindow");
    if ( Super.SetupWindow() )
@@ -204,47 +204,47 @@ simulated function timer()
 
 function GetServerConfig() // executes on server
 {
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bDM)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bDM)
       GameTypes = "1";
    else
       GameTypes = "0";
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bLMS)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bLMS)
       GameTypes = GameTypes $ "1";
    else
       GameTypes = GameTypes $ "0";
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bTDM)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bTDM)
       GameTypes = GameTypes $ "1";
    else
       GameTypes = GameTypes $ "0";
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bAS)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bAS)
       GameTypes = GameTypes $ "1";
    else
       GameTypes = GameTypes $ "0";
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bDOM)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bDOM)
       GameTypes = GameTypes $ "1";
    else
       GameTypes = GameTypes $ "0";
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bCTF)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bCTF)
       GameTypes = GameTypes $ "1";
    else
       GameTypes = GameTypes $ "0";
-   if(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bOther)
+   if(class'BDBMapVote4.BDBMapVote4'.default.bOther)
       GameTypes = GameTypes $ "1";
    else
       GameTypes = GameTypes $ "0";
-   OtherClass = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.OtherClass;
-   VoteTimeLimit = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.VoteTimeLimit;
-   bUseMapList = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bUseMapList;
-   bAutoOpen = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bAutoOpen;
-   ScoreBoardDelay = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.ScoreBoardDelay;
-   bAutoDetect = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bAutoDetect;
-   bCheckOtherGameTie = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bCheckOtherGameTie;
-   Mode = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.Mode;
-   RepeatLimit = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.RepeatLimit;
-   MidGameVotePercent = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MidGameVotePercent;
-   MinMapCount = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MinMapCount;
-   MapPreFixOverRide = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MapPreFixOverRide;
-   ExtraMutators = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.ExtraMutators;
+   OtherClass = class'BDBMapVote4.BDBMapVote4'.default.OtherClass;
+   VoteTimeLimit = class'BDBMapVote4.BDBMapVote4'.default.VoteTimeLimit;
+   bUseMapList = class'BDBMapVote4.BDBMapVote4'.default.bUseMapList;
+   bAutoOpen = class'BDBMapVote4.BDBMapVote4'.default.bAutoOpen;
+   ScoreBoardDelay = class'BDBMapVote4.BDBMapVote4'.default.ScoreBoardDelay;
+   bAutoDetect = class'BDBMapVote4.BDBMapVote4'.default.bAutoDetect;
+   bCheckOtherGameTie = class'BDBMapVote4.BDBMapVote4'.default.bCheckOtherGameTie;
+   Mode = class'BDBMapVote4.BDBMapVote4'.default.Mode;
+   RepeatLimit = class'BDBMapVote4.BDBMapVote4'.default.RepeatLimit;
+   MidGameVotePercent = class'BDBMapVote4.BDBMapVote4'.default.MidGameVotePercent;
+   MinMapCount = class'BDBMapVote4.BDBMapVote4'.default.MinMapCount;
+   MapPreFixOverRide = class'BDBMapVote4.BDBMapVote4'.default.MapPreFixOverRide;
+   ExtraMutators = class'BDBMapVote4.BDBMapVote4'.default.ExtraMutators;
 }
 //-------------------------------------------------------------------
 simulated function UpdateMapVoteResults(string Text,int i)
@@ -268,7 +268,7 @@ function SetBan(int i, string IP, string Nick) {
 
 defaultproperties
 {
-     WindowClass=Class'BDBMapVote3Ex.MapVoteTabWindow'
+     WindowClass=Class'BDBMapVote4.MapVoteTabWindow'
      WinLeft=50
      WinTop=30
      WinWidth=410

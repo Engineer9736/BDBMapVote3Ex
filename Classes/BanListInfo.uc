@@ -1,5 +1,5 @@
 // ====================================================================
-//  Class:  BDBMapVote3Ex.BanList
+//  Class:  BDBMapVote4.BanList
 //  Parent: Core.Object
 //
 //  <Enter a description here>

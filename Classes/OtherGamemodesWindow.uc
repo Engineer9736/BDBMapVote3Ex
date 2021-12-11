@@ -94,14 +94,14 @@ function SaveOtherGamemodesConfig() {
 	
 	for (i=0;i<10;i++) {
 		if (cbEnabled[i].bChecked) {
-			GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesbEnabled " $ i $ " 1");
+			GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesbEnabled " $ i $ " 1");
 		}
 		else {
-			GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesbEnabled " $ i $ " 0");
+			GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesbEnabled " $ i $ " 0");
 		}
 		
-		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesMapPrefix " $ i $ " " $ txtMapPrefix[i].getValue());
-		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherGamemodesPackageGameClass " $ i $ " " $ txtPackageGameClass[i].getValue());
+		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesMapPrefix " $ i $ " " $ txtMapPrefix[i].getValue());
+		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesPackageGameClass " $ i $ " " $ txtPackageGameClass[i].getValue());
 	}
 }
 

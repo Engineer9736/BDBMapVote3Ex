@@ -137,5 +137,5 @@ function Find(string SearchText)
 defaultproperties
 {
      ItemHeight=12.000000
-     ListClass=Class'BDBMapVote3Ex.UMenuMapVoteList'
+     ListClass=Class'BDBMapVote4.UMenuMapVoteList'
 }

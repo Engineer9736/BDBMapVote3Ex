@@ -29,7 +29,7 @@ function Created()
     sldMsgTimeOut.MaxValue = 60;
     sldMsgTimeOut.Step = 1;
     sldMsgTimeOut.SetText("Message Expiration");
-    sldMsgTimeOut.SetValue(class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut);
+    sldMsgTimeOut.SetValue(class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut);
 
     lblMsgTimeOut = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 200, 30, 40, 20));
     lblMsgTimeOut.SetText(String(int(sldMsgTimeOut.Value)) $ " sec");
@@ -147,16 +147,49 @@ function Close(optional bool bByParent)
 
 function SaveMapVoteConfig()
 {
-   class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut = int(sldMsgTimeOut.Value);
-   class'BDBMapVote3Ex.BDBMapVote3Ex'.static.StaticSaveConfig();
+   class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut = int(sldMsgTimeOut.Value);
+   class'BDBMapVote4.BDBMapVote4'.static.StaticSaveConfig();
 
    // Set the length of time messages stay on screen
-   class'SayMessagePlus'.default.Lifetime     = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'CriticalStringPlus'.default.Lifetime = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'RedSayMessagePlus'.default.Lifetime  = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'TeamSayMessagePlus'.default.Lifetime = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'StringMessagePlus'.default.Lifetime  = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
-   class'DeathMessagePlus'.default.Lifetime  = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
+   class'SayMessagePlus'.default.Lifetime     = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'CriticalStringPlus'.default.Lifetime = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'RedSayMessagePlus'.default.Lifetime  = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'TeamSayMessagePlus'.default.Lifetime = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'StringMessagePlus'.default.Lifetime  = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+   class'DeathMessagePlus'.default.Lifetime  = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
+}
+
+function Paint(Canvas C, float MouseX, float MouseY)
+{
+     local float H;
+
+     Super.Paint(C,MouseX,MouseY);
+	 
+	 // Black text font
+	 C.DrawColor.R = 0;
+     C.DrawColor.G = 0;
+     C.DrawColor.B = 0;
+	        
+     // Gerco: Print changelog
+     H = printText("Changes in this version:     " , 270, 10,           C);
+     H = printText("- 'Random map' option added  " , 270, 10 + (1 * H), C);
+     H = printText("                             " , 270, 10 + (2 * H), C);
+     H = printText("Changes in last version:     " , 270, 10 + (3 * H), C);
+     H = printText("- Ban/Unban by name          " , 270, 10 + (4 * H), C);
+     H = printText("                             " , 270, 10 + (5 * H), C);
+     H = printText("                             " , 270, 10 + (6 * H), C);
+     H = printText("For info or questions, mail  " , 270, 10 + (7 * H), C);
+     H = printText("me at gerco@gdries.com       " , 270, 10 + (8 * H), C);
+}
+
+function float printText(string Text, float X, float Y, Canvas C)
+{
+     local float W,H;
+
+     TextSize(C, Text, W, H);
+     ClipText(C, X, Y, Text);        
+
+     return H;
 }
 
 defaultproperties

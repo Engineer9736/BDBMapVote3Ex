@@ -4,7 +4,6 @@ var MapVoteListBox MapListBox;
 var UWindowSmallButton CloseButton;
 var UWindowSmallButton VoteButton;
 var MapStatusListBox lstMapStatus;
-var UWindowCheckBox   cbLoadScreenShot;
 var UMenuLabelControl lblStatusTitles;
 var UMenuLabelControl lblMapCount;
 var UWindowEditControl txtFind;
@@ -46,54 +45,57 @@ function Created()
 
    Super.Created();
 
-   MapListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',10,10,130,110));
+	// The available maps list
+   MapListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',10,10,130,254));
    MapListBox.Items.Clear();
 
-   VoteButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',50,120,40,20));
+	// Vote button for people who cannot doubleclick
+   VoteButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',50,264,40,20));
    VoteButton.DownSound = sound 'UnrealShare.BeltSnd';
    VoteButton.Text= "Vote";
    VoteButton.bDisabled = false;
 
-   lstMapStatus = MapStatusListBox(CreateControl(class'MapStatusListBox',10,150,200,130));
+	// The currently registered mapvotes
+   lstMapStatus = MapStatusListBox(CreateControl(class'MapStatusListBox',175,143,200,130));
    lstMapStatus.bAcceptsFocus = False;
    lstMapStatus.Items.Clear();
 
-   cbLoadScreenShot = UWindowCheckBox(CreateControl(class'UWindowCheckBox', 230, 120, 70, 20));
-   cbLoadScreenShot.SetText("ScreenShot");
-   cbLoadScreenShot.Align = TA_Right;
-   cbLoadScreenShot.SetFont(F_Normal);
-   cbLoadScreenShot.SetTextColor(TextColor);
-   cbLoadScreenShot.bChecked = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bLoadScreenShot;
-
-   lblStatusTitles = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 10, 140, 390, 10));
+	// Column headers  for the currently registered mapvotes list
+   lblStatusTitles = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 174, 131, 390, 10));
    lblStatusTitles.SetText("Rank Map Name                              Votes");
    lblStatusTitles.SetFont(F_Normal);
    lblStatusTitles.SetTextColor(TextColor);
 
-   lblMapCount = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 95, 120, 70, 10));
+	// Amount of available maps
+   lblMapCount = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 95, 264, 70, 10));
    lblMapCount.SetText("");
    lblMapCount.SetFont(F_Normal);
    lblMapCount.SetTextColor(TextColor);
 
-   txtFind = UWindowEditControl(CreateControl(class'UWindowEditControl', -30, 120, 80, 10));
+	// Search box. Unsure why the x coordinate is on -30 instead of 10, but will just leave it. y goes from 120 to 264.
+   txtFind = UWindowEditControl(CreateControl(class'UWindowEditControl', -30, 264, 80, 10));
    txtFind.SetNumericOnly(false);
    txtFind.SetText("");
 
-   txtMessage = UWindowEditControl(CreateControl(class'UWindowEditControl', -150, 285, 320, 10));
+	// The chat text input
+   txtMessage = UWindowEditControl(CreateControl(class'UWindowEditControl', -184, 285, 388, 10));
    txtMessage.SetText("");
    txtMessage.SetNumericOnly(false);
    txtMessage.SetHistory(true);
    txtMessage.SetMaxLength(150);
 
-   SendButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton', 170, 285, 30, 10));
-   SendButton.Text= "Send";
+	// The chat send button 130 + 74
+   SendButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton', 204, 285, 60, 10));
+   SendButton.Text= "Send chat";
    SendButton.bDisabled = false;
 
-   lblMode = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 210, 290, 100, 20));
+	// Label for the mapvote mode
+   lblMode = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 284, 287, 100, 20));
    lblMode.SetText("Mode:");
    lblMode.SetFont(F_Normal);
    lblMode.SetTextColor(TextColor);
 
+	// Close button
    CloseButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',360,285,40,20));
    CloseButton.DownSound = sound 'UnrealShare.WeaponPickup';
    CloseButton.Text= "Close";
@@ -101,28 +103,33 @@ function Created()
    
    // Gerco: Buttons en labels voor de Insta en NW vote maken.   
    // Instagib votebutton (maakt Shockrifle schiet geluidje)
-   btnInstaVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',230,200,100,20));
+   btnInstaVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',285,25,100,20));
    btnInstaVote.DownSound = sound 'UnrealShare.TazerFire';
    btnInstaVote.Text= "Instagib";
    btnInstaVote.bDisabled = false;
    
    // Instagib statuslabel
-   lblInstaNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 335, 200, 60, 20));
+   lblInstaNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 316, 43, 60, 20));
    lblInstaNumVotes.SetText("0 votes");
    lblInstaNumVotes.SetFont(F_Normal);
    lblInstaNumVotes.SetTextColor(TextColor);
    
    // Normal votebutton (maakt raket-laad geluidje)
-   btnNWVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',230,230,100,20));
+   btnNWVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',285,64,100,20));
    btnNWVote.DownSound = sound 'UnrealShare.Loading';
    btnNWVote.Text= "Normal Weapons";
    btnNWVote.bDisabled = false;
    
    // NW statuslabel
-   lblNWNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 335, 230, 60, 20));
+   lblNWNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 316, 83, 60, 20));
    lblNWNumVotes.SetText("0 votes");
    lblNWNumVotes.SetFont(F_Normal);
    lblNWNumVotes.SetTextColor(TextColor);
+   
+   // Load some texture to show where the screenshot position is.
+   Screenshot = Texture(DynamicLoadObject("Editor.BkgndHi", class'Texture'));
+   MapTitle = "Select a map";
+   MapAuthor = "to view screenshot.";
 }
 
 function SetAdmin(bool bIsAdmin)
@@ -327,9 +334,14 @@ function SetMap(string MapName)
 {
      local int i;
      local LevelSummary L;
-
-     if(!cbLoadScreenShot.bChecked)
-        return;
+	 
+	 if (MapName == "--Random Map--") {
+		Screenshot = Texture(DynamicLoadObject("Editor.BkgndHi", class'Texture'));
+          MapTitle = "A random map";
+          MapAuthor = "will be picked.";
+          IdealPlayerCount = "";
+		  return;
+	 }
 
      i = InStr(Caps(MapName), ".UNR");
      if(i != -1)
@@ -348,7 +360,8 @@ function SetMap(string MapName)
      }
      else
      {
-          MapTitle = "DownLoad";
+		Screenshot = Texture(DynamicLoadObject("Editor.BkgndHi", class'Texture'));
+          MapTitle = "Download";
           MapAuthor = "Required";
           IdealPlayerCount = "";
      }
@@ -390,7 +403,7 @@ function Paint(Canvas C, float MouseX, float MouseY)
           C.DrawColor.G = 255;
           C.DrawColor.B = 255;
 
-          DrawStretchedTexture(C, 145, 10, 120, 110, Screenshot);
+          DrawStretchedTexture(C, 148, 10, 120, 110, Screenshot);
      }
 
      C.Font = Root.Fonts[F_Normal];
@@ -398,34 +411,21 @@ function Paint(Canvas C, float MouseX, float MouseY)
      if(IdealPlayerCount != "")
      {
         TextSize(C, IdealPlayerCount $ " Players", W, H);
-        ClipText(C, 155, 110, IdealPlayerCount $ " Players");
+        ClipText(C, 158, 110, IdealPlayerCount $ " Players");
      }
 
      if(MapAuthor != "")
      {
         TextSize(C, MapAuthor, W, H);
-        ClipText(C, 155, 40, MapAuthor);
+        ClipText(C, 158, 40, MapAuthor);
      }
           
      if(MapTitle != "")
      {
         TextSize(C, MapTitle, W, H);
-        ClipText(C, 155, 20, MapTitle);
+        ClipText(C, 158, 20, MapTitle);
      }
 
-   if(!bAdmin)
-   {          
-     // Gerco: Print changelog
-     H = printText("Changes in this version:     " , 270, 10,           C);
-     H = printText("- 'Random map' option added  " , 270, 10 + (1 * H), C);
-     H = printText("                             " , 270, 10 + (2 * H), C);
-     H = printText("Changes in last version:     " , 270, 10 + (3 * H), C);
-     H = printText("- Ban/Unban by name          " , 270, 10 + (4 * H), C);
-     H = printText("                             " , 270, 10 + (5 * H), C);
-     H = printText("                             " , 270, 10 + (6 * H), C);
-     H = printText("For info or questions, mail  " , 270, 10 + (7 * H), C);
-     H = printText("me at gerco@gdries.com       " , 270, 10 + (8 * H), C);
-   }
      // Draw Status text
      C.DrawColor.R = 0;
      C.DrawColor.G = 0;
@@ -451,8 +451,8 @@ function KeyDown( int Key, float X, float Y )
 
 function Close(optional bool bByParent)
 {
-    class'BDBMapVote3Ex.BDBMapVote3Ex'.default.bLoadScreenShot = cbLoadScreenShot.bChecked;
-    class'BDBMapVote3Ex.BDBMapVote3Ex'.static.StaticSaveConfig();
+    //class'BDBMapVote4.BDBMapVote4'.default.bLoadScreenShot = cbLoadScreenShot.bChecked;
+    //class'BDBMapVote4.BDBMapVote4'.static.StaticSaveConfig();
     Super.Close(bByParent);
 }
 

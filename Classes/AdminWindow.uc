@@ -197,27 +197,27 @@ function Notify(UWindowDialogControl C, byte E)
                ParentWindow.ParentWindow.ParentWindow.Close();
                break;
             case RemoteSaveButton:
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bDM "$ string(cbLoadDM.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bLMS "$ string(cbLoadLMS.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bTDM "$ string(cbLoadTDM.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bAS "$ string(cbLoadAS.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bDOM "$ string(cbLoadDOM.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bCTF "$ string(cbLoadCTF.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bOther "$ string(cbLoadOther.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex OtherClass "$ txtOtherClass.GetValue());
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex VoteTimeLimit "$ string(int(sldVoteTimeLimit.Value)));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bUseMapList "$ string(cbUseMapList.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bAutoOpen "$ string(cbAutoOpen.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex ScoreBoardDelay "$ string(int(sldScoreBoardDelay.Value)));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bAutoDetect "$ string(cbAutoDetect.bChecked));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex bCheckOtherGameTie "$ string(cbCheckOtherGameTie.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bDM "$ string(cbLoadDM.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bLMS "$ string(cbLoadLMS.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bTDM "$ string(cbLoadTDM.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bAS "$ string(cbLoadAS.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bDOM "$ string(cbLoadDOM.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bCTF "$ string(cbLoadCTF.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bOther "$ string(cbLoadOther.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherClass "$ txtOtherClass.GetValue());
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 VoteTimeLimit "$ string(int(sldVoteTimeLimit.Value)));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bUseMapList "$ string(cbUseMapList.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bAutoOpen "$ string(cbAutoOpen.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 ScoreBoardDelay "$ string(int(sldScoreBoardDelay.Value)));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bAutoDetect "$ string(cbAutoDetect.bChecked));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 bCheckOtherGameTie "$ string(cbCheckOtherGameTie.bChecked));
                // New options for v3
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex MidGameVotePercent "$ string(int(sldMidGameVotePercent.Value)));
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex Mode "$ cboMode.GetValue());
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex MinMapCount "$ txtMinMapCount.GetValue());
-               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex MapPreFixOverRide "$ txtMapPreFixOverRide.GetValue());
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 MidGameVotePercent "$ string(int(sldMidGameVotePercent.Value)));
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 Mode "$ cboMode.GetValue());
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 MinMapCount "$ txtMinMapCount.GetValue());
+               GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 MapPreFixOverRide "$ txtMapPreFixOverRide.GetValue());
 			   // New option for ut.tweakers.net
-			   GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote3Ex.BDBMapVote3Ex ExtraMutators "$ txtExtraMuts.GetValue());
+			   GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 ExtraMutators "$ txtExtraMuts.GetValue());
 			   
                GetPlayerOwner().ConsoleCommand("MUTATE BDBMAPVOTE RELOADMAPS");
                break;

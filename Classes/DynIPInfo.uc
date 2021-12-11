@@ -1,5 +1,5 @@
 // ====================================================================
-//  Class:  BDBMapVote3Ex.DynIPInfo
+//  Class:  BDBMapVote4.DynIPInfo
 //  Parent: Engine.ReplicationInfo
 //
 //  <Enter a description here>
@@ -46,8 +46,8 @@ simulated function CheckBan(int Month, int Day, int Hour) {
 	
     log("MV: DIPI.CheckBan: Unban");
 
-	class'BDBMapVote3Ex.DynIPInfo'.default.Until = "";
-	class'BDBMapVote3Ex.DynIPInfo'.static.StaticSaveConfig();	
+	class'BDBMapVote4.DynIPInfo'.default.Until = "";
+	class'BDBMapVote4.DynIPInfo'.static.StaticSaveConfig();	
 	return;	// Player's ban has expired, allow him to play
   }	
   
@@ -68,8 +68,8 @@ simulated function SetBan(int Month, int Day, int Hour) {
   	return;
 
   log("MV: Setting Until to"@Month@Day@Hour);
-  class'BDBMapVote3Ex.DynIPInfo'.default.Until = Month@Day@Hour;
-  class'BDBMapVote3Ex.DynIPInfo'.static.StaticSaveConfig();	
+  class'BDBMapVote4.DynIPInfo'.default.Until = Month@Day@Hour;
+  class'BDBMapVote4.DynIPInfo'.static.StaticSaveConfig();	
   
   log("MV: DIPI.SetBan: END");
 }

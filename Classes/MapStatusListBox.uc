@@ -96,5 +96,5 @@ function DoubleClickItem(UWindowListBoxItem I)
 defaultproperties
 {
      ItemHeight=13.000000
-     ListClass=Class'BDBMapVote3Ex.MapStatusListItem'
+     ListClass=Class'BDBMapVote4.MapStatusListItem'
 }
