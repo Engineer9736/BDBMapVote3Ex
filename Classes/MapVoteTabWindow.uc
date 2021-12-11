@@ -46,6 +46,7 @@ function Created()
    Super.Created();
 }
 
+// Called from MapVoteWRI
 function AddMapName(String MapName)
 {
    local UMenuMapVoteList I;
@@ -56,6 +57,22 @@ function AddMapName(String MapName)
    //MapWindow.MapList[MapWindow.MapCount++] = MapName;
 }
 
+// Called from MapVoteWRI
+function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtPackageGameClass, string txtMapPrefix) {
+
+	local OtherGamemodesWindow Window;
+	local int i;
+
+	if(OtherGamemodesWindow != None) {
+		Window = OtherGamemodesWindow(OtherGamemodesWindow.ClientArea);
+		Window.cbEnabled[index].bChecked = cbEnabled;
+		Window.txtPackageGameClass[index].SetValue(txtPackageGameClass);
+		Window.txtMapPrefix[index].SetValue(txtMapPrefix);
+	}
+
+}
+
+// Called from MapVoteWRI
 function UpdateAdmin(string p_GameTypes,
                      string p_OtherClass,
                      int p_VoteTimeLimit,                     

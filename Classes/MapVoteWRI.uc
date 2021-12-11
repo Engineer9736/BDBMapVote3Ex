@@ -38,6 +38,10 @@ var string MapPreFixOverRide;
 var string ExtraMutators;
 var bool bIsAdmin;
 
+var int OtherGamemodesbEnabled[10];
+var string OtherGamemodesMapPrefix[10];
+var string OtherGamemodesPackageGameClass[10];
+
 replication
 {
    // Variables the server should send to the client.
@@ -64,7 +68,10 @@ replication
       MinMapCount,
       MapPreFixOverRide,
       ExtraMutators,
-	  bIsAdmin;
+	  bIsAdmin,
+	  OtherGamemodesbEnabled,
+	  OtherGamemodesMapPrefix,
+	  OtherGamemodesPackageGameClass;
 }
 
 simulated function bool SetupWindow ()
@@ -185,8 +192,11 @@ simulated function timer()
 	        if( BannedList[i].IP != "" )
 	           MapVoteTabWindow(TheWindow).MapWindow.cmbBanned.AddItem(BannedList[i].Nick @ "(" $ BannedList[i].IP $ ")",""$i);
 	     }		 
-      }  
+      }
 
+	for(i=0;i<10;i++) {
+		MapVoteTabWindow(TheWindow).UpdateAdminOtherGamemode(i, OtherGamemodesbEnabled[i]==1, OtherGamemodesMapPrefix[i], OtherGamemodesPackageGameClass[i]);
+	}
       MapVoteTabWindow(TheWindow).MapWindow.lblMapCount.SetText(MapCount $ " Maps");
       MapVoteTabWindow(TheWindow).MapWindow.lblMode.SetText("Mode: " $ Mode);
    }

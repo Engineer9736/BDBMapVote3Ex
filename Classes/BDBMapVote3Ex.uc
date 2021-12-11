@@ -21,6 +21,11 @@ var string CurGameMode;
 var int PlayerModeVote[32];
 var int InstaNumVotes,NWNumVotes;
 
+// Engineer: Other gamemode config
+var config int OtherGamemodesbEnabled[10];
+var config string OtherGamemodesMapPrefix[10];
+var config string OtherGamemodesPackageGameClass[10];
+
 var config bool bAutoDetect;
 var config bool bDM;
 var config bool bLMS;
@@ -728,6 +733,12 @@ function OpenVoteWindow(PlayerPawn Sender)
        if( bl.blGetBan(i).Used ) 
          MVWRI.SetBan(i, bl.blGetBan(i).IP, bl.blGetBan(i).Nick);
      }
+   }
+   
+   for(i=0;i<10;i++) {
+	   MVWRI.OtherGamemodesbEnabled[i] = OtherGamemodesbEnabled[i];
+	   MVWRI.OtherGamemodesMapPrefix[i] = OtherGamemodesMapPrefix[i];
+	   MVWRI.OtherGamemodesPackageGameClass[i] = OtherGamemodesPackageGameClass[i];
    }
    
    MVWRI.GetServerConfig();
