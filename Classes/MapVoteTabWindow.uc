@@ -36,12 +36,10 @@ function Created()
       PageControl = Pages.AddPage( "Admin", class'AdminTabWindow');
       AdminWindow = AdminTabWindow(PageControl.Page);
 	  
-
-   }
-   
    	  // Add the Other Games window
       PageControl = Pages.AddPage( "Other Gamemodes", class'OtherGamemodesTabWindow');
       OtherGamemodesWindow = OtherGamemodesTabWindow(PageControl.Page);
+   }
 
    Super.Created();
 }
