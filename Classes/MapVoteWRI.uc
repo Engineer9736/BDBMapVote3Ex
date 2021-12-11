@@ -76,8 +76,6 @@ replication
 
 simulated function bool SetupWindow ()
 {
-   local int i;
-
    // Increase the length of time messages stay on screen
    class'SayMessagePlus'.default.Lifetime     = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
    class'CriticalStringPlus'.default.Lifetime = class'BDBMapVote3Ex.BDBMapVote3Ex'.default.MsgTimeOut;
@@ -93,11 +91,13 @@ simulated function bool SetupWindow ()
    }
    else
       log("Super.SetupWindow() = false");
+
+	return true;
 }
 
 simulated function timer()
 {
-   local int i,MyCount,MyPlayerCount;
+   local int i, MyCount;
 
    //count maps that have replicated
    MyCount = 0;

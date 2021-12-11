@@ -1069,7 +1069,8 @@ function TallyVotes(bool bForceMapSwitch)
       if(MapList[topmap] == "--Random Map--") {
 	     MapList[topmap] = MapList[rand(MapCount-1) + 1];
       }
-	  		 
+	 
+	 // This variable determines which Package.Gameclass gets assigned to the next game.
       GameType = SetupGameMap(MapList[topmap]);
 
       // Gerco: bepaal Insta of NW
@@ -1111,7 +1112,7 @@ function TallyVotes(bool bForceMapSwitch)
         extra = extra $ "Capture the Flag)";
       else if(GameType ~= "FragBall.FragGame") {
       	extra = "(Frag*Ball)";
-	GameMode = 2;
+		GameMode = 2;
       }
       else
         extra = "";
@@ -1232,6 +1233,15 @@ function string SetupGameMap(string MapName)
       GameType = OtherClass;
       return GameType;
    }
+   
+   // Check if the chosen map is one of the gamemodes on the OtherGamemodes admin tab.
+   for (i=0;i<10;i++) {
+		// Do the prefix check including the - character. For example Badlands has BL and BLC prefixes.
+		// If the - is not taken into account then BL could end up with the BLC gametype.
+		if(OtherGamemodesbEnabled[i] == 1 && left(Caps(MapName),len(OtherGamemodesMapPrefix[i])+1) == (Caps(OtherGamemodesMapPrefix[i]) $ "-")) {
+			return OtherGamemodesPackageGameClass[i];
+		}
+   }
 
    if(Left(Caps(MapName),2) == "DM")
          GameType = DMGameType;
@@ -1272,7 +1282,8 @@ function LoadMaps()
    local int pos;
    local string GamePackage;
    local Mutator M;
-
+	local int i;
+	
    MapCount = 0;
 
    if(bAutoDetect)
@@ -1414,6 +1425,14 @@ function LoadMaps()
          return;
       }
    }
+   
+   // Load the gamemodes from the Other Gamemodes admin tab
+   for (i=0;i<10;i++) {
+		if (OtherGamemodesbEnabled[i] == 1) {
+			LoadMapTypes(OtherGamemodesMapPrefix[i]);
+		}
+   }
+   
    log("Total Maps = "$ MapCount);
 }
 //*******************************************************************************
@@ -1480,8 +1499,6 @@ function LoadMapCycleList(class<MapList> MapListType)
 //*******************************************************************************
 function TOFixSetEndCams(string Reason)
 {
-     local TeamInfo BestTeam;
-     local int i;
      local pawn P, Best;
      local PlayerPawn player;
 
