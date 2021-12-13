@@ -37,6 +37,7 @@ var int MinMapCount;
 var string MapPreFixOverRide;
 var string ExtraMutators;
 var bool bIsAdmin;
+var string CurrentMapName;
 
 var int OtherGamemodesbEnabled[10];
 var string OtherGamemodesMapPrefix[10];
@@ -71,11 +72,12 @@ replication
 	  bIsAdmin,
 	  OtherGamemodesbEnabled,
 	  OtherGamemodesMapPrefix,
-	  OtherGamemodesPackageGameClass;
+	  OtherGamemodesPackageGameClass,
+	  CurrentMapName;
 }
 
 simulated function bool SetupWindow ()
-{
+{	
    // Increase the length of time messages stay on screen
    class'SayMessagePlus'.default.Lifetime     = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
    class'CriticalStringPlus'.default.Lifetime = class'BDBMapVote4.BDBMapVote4'.default.MsgTimeOut;
@@ -91,8 +93,39 @@ simulated function bool SetupWindow ()
    }
    else
       log("Super.SetupWindow() = false");
+	  
+	// Give a handle to this WRI from the Mapvote window, so that it can give the instruction to reload the maplist with a filter on it.
+	MapVoteTabWindow(TheWindow).MapWindow.WRI = self;
+	MapVoteTabWindow(TheWindow).CurrentMapName = CurrentMapName;
 
 	return true;
+}
+
+simulated function loadMapList() {
+	local int i;
+	
+	// Clear the maplist.
+	MapVoteTabWindow(TheWindow).ClearMapList();
+	
+	// fill Map List-Box with map names
+	//  Map Number  List
+	//  ----------- ----------
+	//  1   - 255   MapList1
+	//  256 - 510   MapList2
+	//  511 - 765   MapList3
+	//  766 - 1020  MapList4
+	
+	for(i=1; i<=MapCount; i++)
+      {
+         if(i < 256)
+           MapVoteTabWindow(TheWindow).AddMapName(MapList1[i]);
+         if(i >= 256 && i < 511)
+           MapVoteTabWindow(TheWindow).AddMapName(MapList2[i - 255]);
+         if(i >= 511 && i < 766)
+           MapVoteTabWindow(TheWindow).AddMapName(MapList3[i - 510]);
+         if(i >= 766)
+           MapVoteTabWindow(TheWindow).AddMapName(MapList4[i - 765]);
+      }
 }
 
 simulated function timer()
@@ -137,25 +170,7 @@ simulated function timer()
 
    if(MapCount > 0)
    {
-      // fill Map List-Box with map names
-      //  Map Number  List
-      //  ----------- ----------
-      //  1   - 255   MapList1
-      //  256 - 510   MapList2
-      //  511 - 765   MapList3
-      //  766 - 1020  MapList4
-
-      for(i=1; i<=MapCount; i++)
-      {
-         if(i < 256)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList1[i]);
-         if(i >= 256 && i < 511)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList2[i - 255]);
-         if(i >= 511 && i < 766)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList3[i - 510]);
-         if(i >= 766)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList4[i - 765]);
-      }
+      loadMapList();
 	  
 		// Test if any of the default 6 gamemodes (inc other) is checked, if so, add it.
 		if (Mid(GameTypes,3,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("AS");

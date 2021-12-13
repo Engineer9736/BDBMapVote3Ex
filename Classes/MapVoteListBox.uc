@@ -1,14 +1,6 @@
 class MapVoteListBox expands UWindowListBox;
 
 //var string SearchText;  //used for keyboard key search
-
-
-function Created()
-{
-    Super.Created();
-    //VertSB.UpButton = None; // A try to kill the scrollbar which didn't work. Tbc.
-}
-
 function Paint(Canvas C, float MouseX, float MouseY)
 {
    C.DrawColor.r = 255;
@@ -20,6 +12,11 @@ function Paint(Canvas C, float MouseX, float MouseY)
 
 function DrawItem(Canvas C, UWindowList Item, float X, float Y, float W, float H)
 {
+	// If the scrollbar was moved out of the way, then make the selection 16 pixels wider.
+	if (VertSB.WinLeft == -1000) {
+		W += 16;
+	}
+	
      if(UMenuMapVoteList(Item).bSelected)
      {
           C.DrawColor.r = 0;

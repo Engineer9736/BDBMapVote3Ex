@@ -36,6 +36,8 @@ var float   LastVoteTime;
 var float   SelectionTime;
 var bool    bAdmin;
 
+var MapVoteWRI WRI;
+
 function Created()
 {
    TextColor.R = 255;
@@ -49,7 +51,7 @@ function Created()
    // The available gamemodes list
    GamemodeListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',10,10,28,254));
    GamemodeListBox.Items.Clear();
-   //GamemodeListBox.VertSB = 0; // anders UWindowListBox subclassen en de VertSB eruit deleten
+   GamemodeListBox.VertSB.WinLeft = -1000; // Move the scrollbar out of the way as it's not needed.
 
 	// The available maps list
    MapListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',42,10,130,254)); // 32 added to x pos
@@ -91,7 +93,7 @@ function Created()
    txtMessage.SetMaxLength(150);
 
 	// The chat send button 130 + 74
-   SendButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton', 204, 285, 60, 10));
+   SendButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton', 206, 285, 60, 10));
    SendButton.Text= "Send chat";
    SendButton.bDisabled = false;
 
@@ -243,7 +245,7 @@ function Notify(UWindowDialogControl C, byte E)
          switch(C)
          {
 			case GamemodeListBox:
-				// todo
+				WRI.loadMapList();
 				break;
 				
             case SendButton:

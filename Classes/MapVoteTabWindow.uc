@@ -8,6 +8,7 @@ var AdminTabWindow AdminWindow;
 var OtherGamemodesTabWindow OtherGamemodesWindow;
 var string PrevSelectedMap;
 var int MapCount;
+var string CurrentMapName;
 
 function Created()
 {
@@ -45,9 +46,26 @@ function Created()
 }
 
 // Called from MapVoteWRI
+function ClearMapList() {
+	MapWindow.MapListBox.Items.Clear();
+}
+
+// Called from MapVoteWRI
 function AddMapName(String MapName)
 {
    local UMenuMapVoteList I;
+   local String currentlySelectedGamemodePrefix;
+   
+   // Prevent a lot of access none errors during loading.
+   if (MapWindow.GamemodeListBox.SelectedItem == None) {
+	return;
+	}
+   
+   currentlySelectedGamemodePrefix = UMenuMapVoteList(MapWindow.GamemodeListBox.SelectedItem).MapName $ "-";
+   // If the prefix does not match the selected gamemode, then don't add it.
+   if (Left(MapName,Len(currentlySelectedGamemodePrefix)) != currentlySelectedGamemodePrefix && MapName != "--Random Map--") {
+	return;
+	}
 
    //log("Adding " $ MapName);
    I = UMenuMapVoteList(MapWindow.MapListBox.Items.Append(class'UMenuMapVoteList'));
@@ -58,10 +76,16 @@ function AddMapName(String MapName)
 // Called from MapVoteWRI
 function AddGamemode(String GamemodeName)
 {
-   local UMenuMapVoteList I;
+	local UMenuMapVoteList I;
+	
+	I = UMenuMapVoteList(MapWindow.GamemodeListBox.Items.Append(class'UMenuMapVoteList'));
+	I.MapName = GamemodeName;
 
-   I = UMenuMapVoteList(MapWindow.GamemodeListBox.Items.Append(class'UMenuMapVoteList'));
-   I.MapName = GamemodeName;
+
+	// If this gamemode matches the current gamemode, then select it.
+	if (Left(CurrentMapName,(Len(GamemodeName)+1)) == (GamemodeName $ "-")) {
+		MapWindow.GamemodeListBox.SetSelectedItem(I);
+	}
 }
 
 // Called from MapVoteWRI

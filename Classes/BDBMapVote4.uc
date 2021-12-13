@@ -728,6 +728,8 @@ function OpenVoteWindow(PlayerPawn Sender)
 	   MVWRI.OtherGamemodesPackageGameClass[i] = OtherGamemodesPackageGameClass[i];
    }
    
+   MVWRI.CurrentMapName = GetURLMap();
+   
    MVWRI.GetServerConfig();
 }
 //************************************************************************************************
