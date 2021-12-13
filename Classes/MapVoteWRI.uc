@@ -96,7 +96,6 @@ simulated function bool SetupWindow ()
 	  
 	// Give a handle to this WRI from the Mapvote window, so that it can give the instruction to reload the maplist with a filter on it.
 	MapVoteTabWindow(TheWindow).MapWindow.WRI = self;
-	MapVoteTabWindow(TheWindow).CurrentMapName = CurrentMapName;
 
 	return true;
 }
@@ -162,16 +161,15 @@ simulated function timer()
    if(MyCount < MapCount)
    {
       //log("settimer");
-      settimer(1,false);
+      settimer(0.1,false);
       return;
    }
 
    log("Total Maps Received = "$ MyCount);
 
    if(MapCount > 0)
-   {
-      loadMapList();
-	  
+   {	  
+		MapVoteTabWindow(TheWindow).CurrentMapName = CurrentMapName;
 		// Test if any of the default 6 gamemodes (inc other) is checked, if so, add it.
 		if (Mid(GameTypes,3,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("AS");
 		if (Mid(GameTypes,5,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("CTF");
@@ -180,6 +178,8 @@ simulated function timer()
 		if (Mid(GameTypes,1,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("LMS");
 		if (Mid(GameTypes,2,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("TDM");
 		if (Mid(GameTypes,6,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode(MapPreFixOverRide);
+		
+		LoadMapList();
 		
 		// Loop through the 10 Othergamemodes, and if enabled, add the prefix to the Gamemodes list.
 		for (i=0;i<10;i++) {

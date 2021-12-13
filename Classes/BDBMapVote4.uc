@@ -670,6 +670,8 @@ function OpenVoteWindow(PlayerPawn Sender)
       return;
    }
    
+   MVWRI.CurrentMapName = GetURLMap();
+   
    // transfer map list to the WRI
    MVWRI.MapCount = MapCount;
    //for(x=1;x<=MapCount;x++)
@@ -727,8 +729,6 @@ function OpenVoteWindow(PlayerPawn Sender)
 	   MVWRI.OtherGamemodesMapPrefix[i] = OtherGamemodesMapPrefix[i];
 	   MVWRI.OtherGamemodesPackageGameClass[i] = OtherGamemodesPackageGameClass[i];
    }
-   
-   MVWRI.CurrentMapName = GetURLMap();
    
    MVWRI.GetServerConfig();
 }
