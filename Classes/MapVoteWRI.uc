@@ -1,11 +1,6 @@
 class MapVoteWRI expands WRI;
 
 var BDBMapVote4 MapVoteMutator;
-var string MapList1[257];
-var string MapList2[257];
-var string MapList3[257];
-var string MapList4[257];
-var int MapCount;
 var string MapVoteResults[100];
 var int InstaNumVotes;
 var int NWNumVotes;
@@ -38,6 +33,7 @@ var string MapPreFixOverRide;
 var string ExtraMutators;
 var bool bIsAdmin;
 var string CurrentMapName;
+var MapListReplicator MLR;
 
 var int OtherGamemodesbEnabled[10];
 var string OtherGamemodesMapPrefix[10];
@@ -47,8 +43,6 @@ replication
 {
    // Variables the server should send to the client.
    reliable if( Role==ROLE_Authority )
-      MapList1,MapList2,MapList3,MapList4,
-      MapCount,
       MapVoteResults,
       InstaNumVotes,
       NWNumVotes,
@@ -102,6 +96,7 @@ simulated function bool SetupWindow ()
 
 simulated function loadMapList() {
 	local int i;
+	local MapListReplicator A;
 	
 	// Clear the maplist.
 	MapVoteTabWindow(TheWindow).ClearMapList();
@@ -114,79 +109,53 @@ simulated function loadMapList() {
 	//  511 - 765   MapList3
 	//  766 - 1020  MapList4
 	
-	for(i=1; i<=MapCount; i++)
+	foreach AllActors(class'BDBMapVote4.MapListReplicator',A) {
+		MLR = A;
+	}
+	
+	if (MLR == None) {
+		Log("No MLR found on client");
+		return;
+	}
+	else {
+		Log("MLR Found!");
+	}
+	
+	for(i=1; i<=MLR.MapCount; i++)
       {
          if(i < 256)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList1[i]);
+           MapVoteTabWindow(TheWindow).AddMapName(MLR.MapList1[i]);
          if(i >= 256 && i < 511)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList2[i - 255]);
+           MapVoteTabWindow(TheWindow).AddMapName(MLR.MapList2[i - 255]);
          if(i >= 511 && i < 766)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList3[i - 510]);
+           MapVoteTabWindow(TheWindow).AddMapName(MLR.MapList3[i - 510]);
          if(i >= 766)
-           MapVoteTabWindow(TheWindow).AddMapName(MapList4[i - 765]);
+           MapVoteTabWindow(TheWindow).AddMapName(MLR.MapList4[i - 765]);
       }
 }
 
 simulated function timer()
 {
-   local int i, MyCount;
+   local int i;
 
-   //count maps that have replicated
-   MyCount = 0;
-   i = 1;
-   While(MapList1[i] != "" && i < 256)
-   {
-     MyCount++;
-     i++;
-   }
-   i = 1;
-   While(MapList2[i] != "" && i < 256)
-   {
-     MyCount++;
-     i++;
-   }
-   i = 1;
-   While(MapList3[i] != "" && i < 256)
-   {
-     MyCount++;
-     i++;
-   }
-   i = 1;
-   While(MapList4[i] != "" && i < 256)
-   {
-     MyCount++;
-     i++;
-   }
-
-   if(MyCount < MapCount)
-   {
-      //log("settimer");
-      settimer(0.1,false);
-      return;
-   }
-
-   log("Total Maps Received = "$ MyCount);
-
-   if(MapCount > 0)
-   {	  
-		MapVoteTabWindow(TheWindow).CurrentMapName = CurrentMapName;
-		// Test if any of the default 6 gamemodes (inc other) is checked, if so, add it.
-		if (Mid(GameTypes,3,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("AS");
-		if (Mid(GameTypes,5,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("CTF");
-		if (Mid(GameTypes,0,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DM");
-		if (Mid(GameTypes,4,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DOM");
-		if (Mid(GameTypes,1,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("LMS");
-		if (Mid(GameTypes,2,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("TDM");
-		if (Mid(GameTypes,6,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode(MapPreFixOverRide);
-		
-		LoadMapList();
-		
-		// Loop through the 10 Othergamemodes, and if enabled, add the prefix to the Gamemodes list.
-		for (i=0;i<10;i++) {
-			if (OtherGamemodesbEnabled[i] == 1) {
-				MapVoteTabWindow(TheWindow).AddGamemode(OtherGamemodesMapPrefix[i]);
-			}
+	MapVoteTabWindow(TheWindow).CurrentMapName = CurrentMapName;
+	// Test if any of the default 6 gamemodes (inc other) is checked, if so, add it.
+	if (Mid(GameTypes,3,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("AS");
+	if (Mid(GameTypes,5,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("CTF");
+	if (Mid(GameTypes,0,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DM");
+	if (Mid(GameTypes,4,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DOM");
+	if (Mid(GameTypes,1,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("LMS");
+	if (Mid(GameTypes,2,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("TDM");
+	if (Mid(GameTypes,6,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode(MapPreFixOverRide);
+	
+	LoadMapList();
+	
+	// Loop through the 10 Othergamemodes, and if enabled, add the prefix to the Gamemodes list.
+	for (i=0;i<10;i++) {
+		if (OtherGamemodesbEnabled[i] == 1) {
+			MapVoteTabWindow(TheWindow).AddGamemode(OtherGamemodesMapPrefix[i]);
 		}
+	}
 		
       MapVoteTabWindow(TheWindow).UpdateAdmin(GameTypes,
                                               OtherClass,
@@ -228,9 +197,8 @@ simulated function timer()
 	for(i=0;i<10;i++) {
 		MapVoteTabWindow(TheWindow).UpdateAdminOtherGamemode(i, OtherGamemodesbEnabled[i]==1, OtherGamemodesMapPrefix[i], OtherGamemodesPackageGameClass[i]);
 	}
-      MapVoteTabWindow(TheWindow).MapWindow.lblMapCount.SetText(MapCount $ " Maps");
-      //MapVoteTabWindow(TheWindow).MapWindow.lblMode.SetText("Mode: " $ Mode);
-   }
+    
+	MapVoteTabWindow(TheWindow).MapWindow.lblMapCount.SetText(MLR.MapCount $ " Maps");
 }
 
 function GetServerConfig() // executes on server

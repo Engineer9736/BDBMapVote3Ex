@@ -552,6 +552,11 @@ function Mutate(string MutateString, PlayerPawn Sender)
             Sender.ClientMessage("Please Wait 20 seconds to vote");
          }
       }
+	  //---------------------------------------------
+      if(Mid(Caps(MutateString),11,11) == "SENDMAPLIST")
+      {
+		SendMapListToClient(Sender);
+	  }
       //---------------------------------------------
       if(Mid(Caps(MutateString),11,3) == "MAP")
       {
@@ -645,6 +650,68 @@ function SetDynIPBan(PlayerPawn Victim)
 	DIPI.SetBan(Level.Month, Level.Day, Level.Hour);
 }
 //************************************************************************************************
+function ModifyPlayer(Pawn Other) // simulated event PostRender( canvas Canvas );
+{
+	Other.ConsoleCommand("mutate bdbmapvote sendmaplist");
+}
+//************************************************************************************************
+function SendMapListToClient(PlayerPawn Sender)
+{
+	local MapListReplicator A, MLR;
+	local int i;
+	
+	if(Sender.IsA('Spectator') && !bLMS) {
+		Sender.Log("Don't open voting window for spectators in non-LMS");
+      return; // don't open voting window for spectators in non-LMS
+	}
+
+   // check if MLR already exists, if so then destroy it.
+   foreach AllActors(class'BDBMapVote4.MapListReplicator',A) // check all existing WRIs
+   {
+      if(Sender == A.Owner)
+		A.Destroy();
+         break;
+   }
+   
+   // None spawned yet, then spawn one.
+   if (MLR == None) {
+	   MLR = Spawn(class'BDBMapVote4.MapListReplicator',Sender,,Sender.Location);
+	}
+	
+   if(MLR==None)
+   {
+      Sender.Log("Could not spawn MapListReplicator");
+      return;
+   }
+   
+   // transfer map list to the WRI
+   MLR.MapCount = MapCount;
+   //for(x=1;x<=MapCount;x++)
+   //   MLR.MapList[x] = MapList[x];
+
+   //  Map Number  List
+   //  ----------- ----------
+   //  1   - 255   MapList1
+   //  256 - 510   MapList2
+   //  511 - 765   MapList3
+   //  766 - 1020  MapList4
+	
+   for(i=1;i<=MapCount;i++)
+   {
+      if(i < 256)
+         MLR.MapList1[i] = MapList[i];
+      if(i >= 256 && i < 511)
+         MLR.MapList2[i - 255] = MapList[i];
+      if(i >= 511 && i < 766)
+         MLR.MapList3[i - 510] = MapList[i];
+      if(i >= 766)
+         MLR.MapList4[i - 765] = MapList[i];
+	}
+	
+	Log("Created a MLR");
+	//Sender.ClientMessage("Done");
+}
+//************************************************************************************************
 function OpenVoteWindow(PlayerPawn Sender)
 {
    local MapVoteWRI MVWRI;
@@ -671,30 +738,7 @@ function OpenVoteWindow(PlayerPawn Sender)
    }
    
    MVWRI.CurrentMapName = GetURLMap();
-   
-   // transfer map list to the WRI
-   MVWRI.MapCount = MapCount;
-   //for(x=1;x<=MapCount;x++)
-   //   MVWRI.MapList[x] = MapList[x];
-
-   //  Map Number  List
-   //  ----------- ----------
-   //  1   - 255   MapList1
-   //  256 - 510   MapList2
-   //  511 - 765   MapList3
-   //  766 - 1020  MapList4
-
-   for(i=1;i<=MapCount;i++)
-   {
-      if(i < 256)
-         MVWRI.MapList1[i] = MapList[i];
-      if(i >= 256 && i < 511)
-         MVWRI.MapList2[i - 255] = MapList[i];
-      if(i >= 511 && i < 766)
-         MVWRI.MapList3[i - 510] = MapList[i];
-      if(i >= 766)
-         MVWRI.MapList4[i - 765] = MapList[i];
-   }
+	
    MVWRI.MapVoteMutator = self;
 
    // transfer Map Voting Status to status page window
