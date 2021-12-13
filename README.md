@@ -14,7 +14,7 @@ This is a mapvote mutator for the game Unreal Tournament 1999.
 
 Maps tab:
 
-![Maps tab](https://github.com/Engineer9736/BDBMapVote4/blob/main/mapvote-maps.png)
+![Maps tab](https://github.com/Engineer9736/BDBMapVote4/blob/main/mapvote-maps-2.png)
 
 Other gamemodes tab:
 
