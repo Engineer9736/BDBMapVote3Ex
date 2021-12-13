@@ -56,6 +56,15 @@ function AddMapName(String MapName)
 }
 
 // Called from MapVoteWRI
+function AddGamemode(String GamemodeName)
+{
+   local UMenuMapVoteList I;
+
+   I = UMenuMapVoteList(MapWindow.GamemodeListBox.Items.Append(class'UMenuMapVoteList'));
+   I.MapName = GamemodeName;
+}
+
+// Called from MapVoteWRI
 function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix, string txtPackageGameClass) {
 
 	local OtherGamemodesWindow Window;

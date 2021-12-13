@@ -2,6 +2,13 @@ class MapVoteListBox expands UWindowListBox;
 
 //var string SearchText;  //used for keyboard key search
 
+
+function Created()
+{
+    Super.Created();
+    //VertSB.UpButton = None; // A try to kill the scrollbar which didn't work. Tbc.
+}
+
 function Paint(Canvas C, float MouseX, float MouseY)
 {
    C.DrawColor.r = 255;

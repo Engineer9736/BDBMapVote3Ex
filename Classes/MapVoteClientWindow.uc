@@ -1,7 +1,9 @@
 class MapVoteClientWindow expands UWindowPageWindow;
 
 var MapVoteListBox MapListBox;
+var MapVoteListBox GamemodeListBox;
 var UWindowSmallButton CloseButton;
+var UWindowSmallButton ExitUTButton;
 var UWindowSmallButton VoteButton;
 var MapStatusListBox lstMapStatus;
 var UMenuLabelControl lblStatusTitles;
@@ -9,7 +11,6 @@ var UMenuLabelControl lblMapCount;
 var UWindowEditControl txtFind;
 var UWindowSmallButton SendButton;
 var UWindowEditControl txtMessage;
-var UMenuLabelControl lblMode;
 
 // Gerco: vars voor insta/nw vote knopjes en statuslabels
 var UWindowSmallButton  btnInstaVote;
@@ -44,36 +45,41 @@ function Created()
    //MapCount = 1;
 
    Super.Created();
+   
+   // The available gamemodes list
+   GamemodeListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',10,10,28,254));
+   GamemodeListBox.Items.Clear();
+   //GamemodeListBox.VertSB = 0; // anders UWindowListBox subclassen en de VertSB eruit deleten
 
 	// The available maps list
-   MapListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',10,10,130,254));
+   MapListBox = MapVoteListBox(CreateControl(class'MapVoteListBox',42,10,130,254)); // 32 added to x pos
    MapListBox.Items.Clear();
 
 	// Vote button for people who cannot doubleclick
-   VoteButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',50,264,40,20));
+   VoteButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',82,264,40,20));
    VoteButton.DownSound = sound 'UnrealShare.BeltSnd';
    VoteButton.Text= "Vote";
    VoteButton.bDisabled = false;
 
 	// The currently registered mapvotes
-   lstMapStatus = MapStatusListBox(CreateControl(class'MapStatusListBox',175,143,200,130));
+   lstMapStatus = MapStatusListBox(CreateControl(class'MapStatusListBox',189,143,200,130));
    lstMapStatus.bAcceptsFocus = False;
    lstMapStatus.Items.Clear();
 
 	// Column headers  for the currently registered mapvotes list
-   lblStatusTitles = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 174, 131, 390, 10));
+   lblStatusTitles = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 188, 130, 390, 10));
    lblStatusTitles.SetText("Rank Map Name                              Votes");
    lblStatusTitles.SetFont(F_Normal);
    lblStatusTitles.SetTextColor(TextColor);
 
 	// Amount of available maps
-   lblMapCount = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 95, 264, 70, 10));
+   lblMapCount = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 127, 264, 70, 10));
    lblMapCount.SetText("");
    lblMapCount.SetFont(F_Normal);
    lblMapCount.SetTextColor(TextColor);
 
 	// Search box. Unsure why the x coordinate is on -30 instead of 10, but will just leave it. y goes from 120 to 264.
-   txtFind = UWindowEditControl(CreateControl(class'UWindowEditControl', -30, 264, 80, 10));
+   txtFind = UWindowEditControl(CreateControl(class'UWindowEditControl', 2, 264, 80, 10));
    txtFind.SetNumericOnly(false);
    txtFind.SetText("");
 
@@ -89,39 +95,38 @@ function Created()
    SendButton.Text= "Send chat";
    SendButton.bDisabled = false;
 
-	// Label for the mapvote mode
-   lblMode = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 284, 287, 100, 20));
-   lblMode.SetText("Mode:");
-   lblMode.SetFont(F_Normal);
-   lblMode.SetTextColor(TextColor);
-
 	// Close button
    CloseButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',360,285,40,20));
    CloseButton.DownSound = sound 'UnrealShare.WeaponPickup';
    CloseButton.Text= "Close";
    CloseButton.bDisabled = false;
    
+   // Exit UT button
+   ExitUTButton = UWindowSmallButton(CreateControl(class'UWindowSmallButton',290,285,60,20));
+   ExitUTButton.Text = "Exit UT";
+   ExitUTButton.bDisabled = false;
+   
    // Gerco: Buttons en labels voor de Insta en NW vote maken.   
    // Instagib votebutton (maakt Shockrifle schiet geluidje)
-   btnInstaVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',285,25,100,20));
+   btnInstaVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',302,25,100,20));
    btnInstaVote.DownSound = sound 'UnrealShare.TazerFire';
    btnInstaVote.Text= "Instagib";
    btnInstaVote.bDisabled = false;
    
    // Instagib statuslabel
-   lblInstaNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 316, 43, 60, 20));
+   lblInstaNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 332, 43, 60, 20));
    lblInstaNumVotes.SetText("0 votes");
    lblInstaNumVotes.SetFont(F_Normal);
    lblInstaNumVotes.SetTextColor(TextColor);
    
    // Normal votebutton (maakt raket-laad geluidje)
-   btnNWVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',285,64,100,20));
+   btnNWVote = UWindowSmallButton(CreateControl(class'UWindowSmallButton',302,64,100,20));
    btnNWVote.DownSound = sound 'UnrealShare.Loading';
    btnNWVote.Text= "Normal Weapons";
    btnNWVote.bDisabled = false;
    
    // NW statuslabel
-   lblNWNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 316, 83, 60, 20));
+   lblNWNumVotes = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 332, 83, 60, 20));
    lblNWNumVotes.SetText("0 votes");
    lblNWNumVotes.SetFont(F_Normal);
    lblNWNumVotes.SetTextColor(TextColor);
@@ -237,6 +242,10 @@ function Notify(UWindowDialogControl C, byte E)
       case DE_Click:
          switch(C)
          {
+			case GamemodeListBox:
+				// todo
+				break;
+				
             case SendButton:
                if(txtMessage.GetValue() != "")
                {
@@ -244,7 +253,9 @@ function Notify(UWindowDialogControl C, byte E)
                   txtMessage.SetValue("");
                }
                break;
-
+			case ExitUTButton:
+				GetPlayerOwner().ConsoleCommand("quit");
+				break;
             case VoteButton:
                if(GetPlayerOwner().Level.TimeSeconds > LastVoteTime + 5) // prevent spamming
                {
@@ -403,7 +414,7 @@ function Paint(Canvas C, float MouseX, float MouseY)
           C.DrawColor.G = 255;
           C.DrawColor.B = 255;
 
-          DrawStretchedTexture(C, 148, 10, 120, 110, Screenshot);
+          DrawStretchedTexture(C, 178, 10, 120, 110, Screenshot); // Old x pos was 148. Now it is 178, so 30 pixels moved.
      }
 
      C.Font = Root.Fonts[F_Normal];
@@ -411,19 +422,19 @@ function Paint(Canvas C, float MouseX, float MouseY)
      if(IdealPlayerCount != "")
      {
         TextSize(C, IdealPlayerCount $ " Players", W, H);
-        ClipText(C, 158, 110, IdealPlayerCount $ " Players");
+        ClipText(C, 188, 110, IdealPlayerCount $ " Players");
      }
 
      if(MapAuthor != "")
      {
         TextSize(C, MapAuthor, W, H);
-        ClipText(C, 158, 40, MapAuthor);
+        ClipText(C, 188, 40, MapAuthor);
      }
           
      if(MapTitle != "")
      {
         TextSize(C, MapTitle, W, H);
-        ClipText(C, 158, 20, MapTitle);
+        ClipText(C, 188, 20, MapTitle);
      }
 
      // Draw Status text
