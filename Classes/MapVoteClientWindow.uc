@@ -397,7 +397,8 @@ function string TranslateMapName(string MapName)
 function Paint(Canvas C, float MouseX, float MouseY)
 {
      local float W, H;
-
+	 local string buf;
+	 
      Super.Paint(C,MouseX,MouseY);
 
      //DrawStretchedTexture(C, 145, 10, 120, 110, Texture'BlackTexture');
@@ -423,18 +424,35 @@ function Paint(Canvas C, float MouseX, float MouseY)
 
      if(IdealPlayerCount != "")
      {
-        TextSize(C, IdealPlayerCount $ " Players", W, H);
-        ClipText(C, 188, 110, IdealPlayerCount $ " Players");
+		buf = IdealPlayerCount $ " Players";
+		
+		// If the playercount text is too long then cut it off to prevent it going all over the GUI.
+		if (Len(buf) > 22) {
+			buf = Left(buf,20) $ "..";
+		}
+		
+        TextSize(C, buf, W, H);
+        ClipText(C, 188, 105, buf);
      }
 
      if(MapAuthor != "")
      {
+		// If the author text is too long then cut it off to prevent it going all over the GUI.
+		if (Len(MapAuthor) > 22) {
+			MapAuthor = Left(MapAuthor,20) $ "..";
+		}
+	 
         TextSize(C, MapAuthor, W, H);
         ClipText(C, 188, 40, MapAuthor);
      }
           
      if(MapTitle != "")
      {
+		// If the title text is too long then cut it off to prevent it going all over the GUI.
+		if (Len(MapTitle) > 22) {
+			MapTitle = Left(MapTitle,20) $ "..";
+		}
+		
         TextSize(C, MapTitle, W, H);
         ClipText(C, 188, 20, MapTitle);
      }
