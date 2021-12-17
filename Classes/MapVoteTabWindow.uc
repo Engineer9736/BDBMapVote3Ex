@@ -89,6 +89,11 @@ function AddGamemode(String GamemodeName)
 }
 
 // Called from MapVoteWRI
+function SortGamemodes() {
+	MapWindow.GamemodeListBox.Sort();
+}
+
+// Called from MapVoteWRI
 function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix, string txtPackageGameClass) {
 
 	local OtherGamemodesWindow Window;

@@ -140,14 +140,13 @@ simulated function timer()
 
 	MapVoteTabWindow(TheWindow).CurrentMapName = CurrentMapName;
 	// Test if any of the default 6 gamemodes (inc other) is checked, if so, add it.
-	if (Mid(GameTypes,3,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("AS");
-	if (Mid(GameTypes,5,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("CTF");
 	if (Mid(GameTypes,0,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DM");
-	if (Mid(GameTypes,4,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DOM");
 	if (Mid(GameTypes,1,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("LMS");
 	if (Mid(GameTypes,2,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("TDM");
+	if (Mid(GameTypes,3,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("AS");
+	if (Mid(GameTypes,4,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("DOM");
+	if (Mid(GameTypes,5,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode("CTF");
 	if (Mid(GameTypes,6,1) == "1") MapVoteTabWindow(TheWindow).AddGamemode(MapPreFixOverRide);
-	
 	LoadMapList();
 	
 	// Loop through the 10 Othergamemodes, and if enabled, add the prefix to the Gamemodes list.
@@ -156,6 +155,7 @@ simulated function timer()
 			MapVoteTabWindow(TheWindow).AddGamemode(OtherGamemodesMapPrefix[i]);
 		}
 	}
+	MapVoteTabWindow(TheWindow).SortGamemodes();
 		
       MapVoteTabWindow(TheWindow).UpdateAdmin(GameTypes,
                                               OtherClass,
