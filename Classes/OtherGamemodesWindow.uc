@@ -1,8 +1,9 @@
 class OtherGamemodesWindow expands UWindowPageWindow;
 
 var UWindowCheckBox cbEnabled[10];
-var UWindowEditControl txtPackageGameClass[10];
 var UWindowEditControl txtMapPrefix[10];
+var UWindowEditControl txtPackageGameClass[10];
+var UWindowEditControl txtGamemodeDescription[10];
 
 var UWindowSmallButton RemoteSaveButton;
 var UWindowSmallButton CloseButton;
@@ -35,7 +36,7 @@ function Created()
 //    DesiredHeight = 450;
 
     lblTableHeader = UMenuLabelControl(CreateControl(class'UMenuLabelControl', 10, 10, WinWidth-20, 20));
-    lblTableHeader.SetText("Enabled     Map PreFix    Package.GameClass");
+    lblTableHeader.SetText("Enabled     Map PreFix    Package.GameClass                 Description");
 
 	// Make 10 Other Gamemode rows in the GUI.
 	for (i=0;i<10;i++) {
@@ -53,9 +54,14 @@ function Created()
 		txtMapPrefix[i].EditBoxWidth = 50;
 		
 		// Package & Gameclass textbox
-		txtPackageGameClass[i] = UWindowEditControl(CreateControl(class'UWindowEditControl', 120, pos, 200, 20));
+		txtPackageGameClass[i] = UWindowEditControl(CreateControl(class'UWindowEditControl', 120, pos, 130, 20));
 		txtPackageGameClass[i].SetNumericOnly(false);
-		txtPackageGameClass[i].EditBoxWidth = 200;
+		txtPackageGameClass[i].EditBoxWidth = 130;
+		
+		// Package & Gameclass textbox
+		txtGamemodeDescription[i] = UWindowEditControl(CreateControl(class'UWindowEditControl', 260, pos, 140, 20));
+		txtGamemodeDescription[i].SetNumericOnly(false);
+		txtGamemodeDescription[i].EditBoxWidth = 140;
 	}
 
 	// Save button
@@ -102,6 +108,7 @@ function SaveOtherGamemodesConfig() {
 		
 		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesMapPrefix " $ i $ " " $ txtMapPrefix[i].getValue());
 		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesPackageGameClass " $ i $ " " $ txtPackageGameClass[i].getValue());
+		GetPlayerOwner().ConsoleCommand("ADMIN SET BDBMapVote4.BDBMapVote4 OtherGamemodesDescription " $ i $ " " $ txtGamemodeDescription[i].getValue());
 	}
 }
 

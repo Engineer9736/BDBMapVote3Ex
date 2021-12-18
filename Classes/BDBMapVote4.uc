@@ -25,6 +25,7 @@ var int InstaNumVotes,NWNumVotes;
 var config int OtherGamemodesbEnabled[10];
 var config string OtherGamemodesMapPrefix[10];
 var config string OtherGamemodesPackageGameClass[10];
+var config string OtherGamemodesDescription[10];
 
 var config bool bAutoDetect;
 var config bool bDM;
@@ -708,7 +709,7 @@ function SendMapListToClient(PlayerPawn Sender)
          MLR.MapList4[i - 765] = MapList[i];
 	}
 	
-	Log("Created a MLR");
+	Log("BDBMapVote4: Created a MLR");
 	//Sender.ClientMessage("Done");
 }
 //************************************************************************************************
@@ -772,6 +773,7 @@ function OpenVoteWindow(PlayerPawn Sender)
 	   MVWRI.OtherGamemodesbEnabled[i] = OtherGamemodesbEnabled[i];
 	   MVWRI.OtherGamemodesMapPrefix[i] = OtherGamemodesMapPrefix[i];
 	   MVWRI.OtherGamemodesPackageGameClass[i] = OtherGamemodesPackageGameClass[i];
+	   MVWRI.OtherGamemodesDescription[i] = OtherGamemodesDescription[i];
    }
    
    MVWRI.GetServerConfig();
@@ -975,6 +977,7 @@ function TallyVotes(bool bForceMapSwitch)
    local int    Ranking[32];
    local int    PlayersThatVoted;
    local int    TieCount;
+   local int	i;
    local string GameType,CurrentMap;
 
    // Gerco: var voor de mode
@@ -1144,8 +1147,14 @@ function TallyVotes(bool bForceMapSwitch)
       	extra = "(Frag*Ball)";
 		GameMode = 2;
       }
-      else
-        extra = "";
+	
+		// Check if the chosen gamemode matches one of the Other Gamemodes
+		for (i=0;i<10;i++) {
+			if (GameType == OtherGamemodesPackageGameClass[i]) {
+				extra = extra $ OtherGamemodesDescription[i] $ ")";
+				break;
+			}
+		}
 		
       RealMapName = TranslateMapName(MapList[topmap]);     
       BroadcastMessage("Next map will be " $ MapList[topmap] $ extra, true);

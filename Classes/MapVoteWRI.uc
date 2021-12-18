@@ -38,6 +38,7 @@ var MapListReplicator MLR;
 var int OtherGamemodesbEnabled[10];
 var string OtherGamemodesMapPrefix[10];
 var string OtherGamemodesPackageGameClass[10];
+var string OtherGamemodesDescription[10];
 
 replication
 {
@@ -67,6 +68,7 @@ replication
 	  OtherGamemodesbEnabled,
 	  OtherGamemodesMapPrefix,
 	  OtherGamemodesPackageGameClass,
+	  OtherGamemodesDescription,
 	  CurrentMapName;
 }
 
@@ -196,7 +198,7 @@ simulated function timer()
       }
 
 	for(i=0;i<10;i++) {
-		MapVoteTabWindow(TheWindow).UpdateAdminOtherGamemode(i, OtherGamemodesbEnabled[i]==1, OtherGamemodesMapPrefix[i], OtherGamemodesPackageGameClass[i]);
+		MapVoteTabWindow(TheWindow).UpdateAdminOtherGamemode(i, OtherGamemodesbEnabled[i]==1, OtherGamemodesMapPrefix[i], OtherGamemodesPackageGameClass[i], OtherGamemodesDescription[i]);
 	}
     
 	MapVoteTabWindow(TheWindow).MapWindow.lblMapCount.SetText(MLR.MapCount $ " Maps");

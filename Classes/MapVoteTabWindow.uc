@@ -94,7 +94,7 @@ function SelectCurrentGamemode() {
 }
 
 // Called from MapVoteWRI
-function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix, string txtPackageGameClass) {
+function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix, string txtPackageGameClass, string txtGamemodeDescription) {
 
 	local OtherGamemodesWindow Window;
 
@@ -103,6 +103,7 @@ function UpdateAdminOtherGamemode(int index, bool cbEnabled, string txtMapPrefix
 		Window.cbEnabled[index].bChecked = cbEnabled;
 		Window.txtMapPrefix[index].SetValue(txtMapPrefix);
 		Window.txtPackageGameClass[index].SetValue(txtPackageGameClass);
+		Window.txtGamemodeDescription[index].SetValue(txtGamemodeDescription);
 	}
 
 }
