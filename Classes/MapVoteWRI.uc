@@ -156,6 +156,7 @@ simulated function timer()
 		}
 	}
 	MapVoteTabWindow(TheWindow).SortGamemodes();
+	MapVoteTabWindow(TheWindow).SelectCurrentGamemode();
 		
       MapVoteTabWindow(TheWindow).UpdateAdmin(GameTypes,
                                               OtherClass,

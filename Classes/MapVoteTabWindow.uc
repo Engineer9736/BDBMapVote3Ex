@@ -80,17 +80,17 @@ function AddGamemode(String GamemodeName)
 	
 	I = UMenuMapVoteList(MapWindow.GamemodeListBox.Items.Append(class'UMenuMapVoteList'));
 	I.MapName = GamemodeName;
-
-
-	// If this gamemode matches the current gamemode, then select it.
-	if (Left(CurrentMapName,(Len(GamemodeName)+1)) == (GamemodeName $ "-")) {
-		MapWindow.GamemodeListBox.SetSelectedItem(I);
-	}
 }
 
 // Called from MapVoteWRI
 function SortGamemodes() {
 	MapWindow.GamemodeListBox.Sort();
+}
+
+// Called from MapVoteWRI
+function SelectCurrentGamemode() {
+
+	MapWindow.GamemodeListBox.SelectMap(Left(CurrentMapName, InStr(CurrentMapName, "-")));
 }
 
 // Called from MapVoteWRI
